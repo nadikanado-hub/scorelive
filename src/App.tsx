@@ -19,7 +19,7 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/scorelive">
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/live" element={<LivePage />} />
