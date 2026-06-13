@@ -213,7 +213,7 @@ const LiveMatchesScreen = ({ onMatchClick }: LiveMatchesScreenProps) => {
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {filteredMatches.map((match, i) => (
               <Fragment key={match.id}>
-                {i === 4 && (
+                {i === 2 && (
                   <div className="col-span-1 sm:col-span-2 xl:col-span-3">
                     <AdsterraBanner />
                   </div>

@@ -226,8 +226,13 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
         </div>
       </div>
 
+      {/* ── Ad Banner ── */}
+      <div className="px-5 lg:px-8 mt-6 relative z-10">
+        <AdsterraBanner />
+      </div>
+
       {/* ── Matches Grid ── */}
-      <div className="px-5 lg:px-8 mt-8 relative z-10">
+      <div className="px-5 lg:px-8 mt-4 relative z-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-bold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
             <Radio className="h-4 w-4 text-primary" />
@@ -243,11 +248,6 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                 const isLive = match.status === "live";
                 return (
                   <Fragment key={match.id}>
-                    {i === 4 && (
-                      <div className="col-span-1 sm:col-span-2">
-                        <AdsterraBanner />
-                      </div>
-                    )}
                   <div
                     className="animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${(i + 2) * 80}ms` }}
