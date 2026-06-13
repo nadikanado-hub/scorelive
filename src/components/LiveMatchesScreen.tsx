@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback, Fragment } from "react";
 import LiveMatchCard from "./LiveMatchCard";
 import AdsterraBanner from "./AdsterraBanner";
 import { Match } from "@/data/matches";
-import { fetchSportSRCLive, fetchSportSRCMatchesByDate } from "@/services/sportsrcApi";
+import { fetchLiveMatches, fetchFixturesByDate } from "@/services/footballApi";
 
 const dateTabs = [
   { id: "Yesterday", label: "Yesterday", icon: Calendar },
@@ -35,13 +35,13 @@ const LiveMatchesScreen = ({ onMatchClick }: LiveMatchesScreenProps) => {
       let data: Match[] = [];
       if (tab === "Today") {
         const [live, todays] = await Promise.all([
-          fetchSportSRCLive(),
-          fetchSportSRCMatchesByDate(getDateString("Today"), "notstarted"),
+          fetchLiveMatches(),
+          fetchFixturesByDate(getDateString("Today")),
         ]);
         const ids = new Set(live.map((m) => m.id));
         data = [...live, ...todays.filter((m) => !ids.has(m.id))];
       } else {
-        data = await fetchSportSRCMatchesByDate(getDateString(tab));
+        data = await fetchFixturesByDate(getDateString(tab));
       }
       setMatches(data);
       setUsingApi(data.length > 0);

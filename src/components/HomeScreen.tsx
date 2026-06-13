@@ -1,7 +1,7 @@
 import { ChevronRight, Flame, Eye, Play, Radio, Trophy, TrendingUp } from "lucide-react";
 import { useState, useRef, useCallback, useEffect, Fragment } from "react";
 import { standingsData, Match } from "@/data/matches";
-import { fetchSportSRCLive, fetchSportSRCMatchesByDate } from "@/services/sportsrcApi";
+import { fetchLiveMatches, fetchFixturesByDate } from "@/services/footballApi";
 import TeamLogo from "./TeamLogo";
 import AdsterraBanner from "./AdsterraBanner";
 
@@ -20,8 +20,8 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
   const loadData = useCallback(async () => {
     const today = new Date().toISOString().split("T")[0];
     const [live, todays] = await Promise.all([
-      fetchSportSRCLive(),
-      fetchSportSRCMatchesByDate(today, "notstarted"),
+      fetchLiveMatches(),
+      fetchFixturesByDate(today),
     ]);
     const wc = (m: Match) => /world cup|fifa|coupe du monde|mondial/i.test(m.league);
     const sortWC = (a: Match, b: Match) => Number(wc(b)) - Number(wc(a));
