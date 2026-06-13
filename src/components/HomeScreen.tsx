@@ -3,6 +3,7 @@ import { useState, useRef, useCallback, useEffect } from "react";
 import { standingsData, Match } from "@/data/matches";
 import { fetchSportSRCLive, fetchSportSRCMatchesByDate } from "@/services/sportsrcApi";
 import TeamLogo from "./TeamLogo";
+import AdsterraBanner from "./AdsterraBanner";
 
 interface HomeScreenProps {
   onMatchClick?: (match: Match) => void;
@@ -242,6 +243,12 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
               {allMatches.map((match, i) => {
                 const isLive = match.status === "live";
                 return (
+                  <>
+                    {i === 4 && (
+                      <div key="ad-home" className="col-span-1 sm:col-span-2">
+                        <AdsterraBanner />
+                      </div>
+                    )}
                   <div
                     key={match.id}
                     className="animate-fade-up cursor-pointer"
@@ -332,6 +339,7 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                       </div>
                     </div>
                   </div>
+                  </>
                 );
               })}
             </div>

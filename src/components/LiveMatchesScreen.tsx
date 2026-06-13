@@ -1,6 +1,7 @@
 import { Search, SlidersHorizontal, RefreshCw, Zap, Trophy, TrendingUp, Flame, Calendar, Clock, ChevronRight } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import LiveMatchCard from "./LiveMatchCard";
+import AdsterraBanner from "./AdsterraBanner";
 import { Match } from "@/data/matches";
 import { fetchSportSRCLive, fetchSportSRCMatchesByDate } from "@/services/sportsrcApi";
 
@@ -211,6 +212,12 @@ const LiveMatchesScreen = ({ onMatchClick }: LiveMatchesScreenProps) => {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {filteredMatches.map((match, i) => (
+              <>
+                {i === 4 && (
+                  <div key="ad-live" className="col-span-1 sm:col-span-2 xl:col-span-3">
+                    <AdsterraBanner />
+                  </div>
+                )}
               <div
                 key={match.id}
                 className="animate-fade-up"
@@ -221,6 +228,7 @@ const LiveMatchesScreen = ({ onMatchClick }: LiveMatchesScreenProps) => {
                   onClick={() => onMatchClick?.(match)}
                 />
               </div>
+              </>
             ))}
           </div>
         )}
