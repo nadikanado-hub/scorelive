@@ -4,6 +4,7 @@ import { standingsData, Match } from "@/data/matches";
 import { fetchLiveMatches, fetchFixturesByDate } from "@/services/footballApi";
 import TeamLogo from "./TeamLogo";
 import AdsterraBanner from "./AdsterraBanner";
+import AdsterraDisplay from "./AdsterraDisplay";
 
 interface HomeScreenProps {
   onMatchClick?: (match: Match) => void;
@@ -20,12 +21,16 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
   const loadData = useCallback(async () => {
     const today = new Date().toISOString().split("T")[0];
     const isWC = (m: Match) => /world cup|fifa|coupe du monde|mondial/i.test(m.league);
+    const isBrazilMorocco = (m: Match) =>
+      /(brazil|morocco)/i.test(`${m.homeTeam} ${m.awayTeam}`);
+    const pinFirst = (a: Match, b: Match) =>
+      Number(isBrazilMorocco(b)) - Number(isBrazilMorocco(a));
     const [live, todays] = await Promise.all([
       fetchLiveMatches(),
       fetchFixturesByDate(today),
     ]);
-    setLiveMatches(live.filter(isWC));
-    setUpcomingMatches(todays.filter((m) => m.status === "upcoming" && isWC(m)));
+    setLiveMatches(live.filter(isWC).sort(pinFirst));
+    setUpcomingMatches(todays.filter((m) => m.status === "upcoming" && isWC(m)).sort(pinFirst));
   }, []);
 
   useEffect(() => {
@@ -226,9 +231,9 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
         </div>
       </div>
 
-      {/* ── Ad Banner ── */}
-      <div className="px-5 lg:px-8 mt-6 relative z-10">
-        <AdsterraBanner />
+      {/* ── Display Ad (320×50) ── */}
+      <div className="mt-4 relative z-10">
+        <AdsterraDisplay />
       </div>
 
       {/* ── Matches Grid ── */}
@@ -248,6 +253,11 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                 const isLive = match.status === "live";
                 return (
                   <Fragment key={match.id}>
+                    {i === 1 && (
+                      <div className="col-span-1 sm:col-span-2">
+                        <AdsterraBanner />
+                      </div>
+                    )}
                   <div
                     className="animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${(i + 2) * 80}ms` }}
