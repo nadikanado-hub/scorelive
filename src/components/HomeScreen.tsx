@@ -19,14 +19,13 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
 
   const loadData = useCallback(async () => {
     const today = new Date().toISOString().split("T")[0];
+    const isWC = (m: Match) => /world cup|fifa|coupe du monde|mondial/i.test(m.league);
     const [live, todays] = await Promise.all([
       fetchLiveMatches(),
       fetchFixturesByDate(today),
     ]);
-    const wc = (m: Match) => /world cup|fifa|coupe du monde|mondial/i.test(m.league);
-    const sortWC = (a: Match, b: Match) => Number(wc(b)) - Number(wc(a));
-    setLiveMatches([...live].sort(sortWC));
-    setUpcomingMatches(todays.filter((m) => m.status === "upcoming").sort(sortWC));
+    setLiveMatches(live.filter(isWC));
+    setUpcomingMatches(todays.filter((m) => m.status === "upcoming" && isWC(m)));
   }, []);
 
   useEffect(() => {
