@@ -1,5 +1,5 @@
 import { Search, SlidersHorizontal, RefreshCw, Zap, Trophy, TrendingUp, Flame, Calendar, Clock, ChevronRight } from "lucide-react";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Fragment } from "react";
 import LiveMatchCard from "./LiveMatchCard";
 import AdsterraBanner from "./AdsterraBanner";
 import { Match } from "@/data/matches";
@@ -212,23 +212,22 @@ const LiveMatchesScreen = ({ onMatchClick }: LiveMatchesScreenProps) => {
         ) : (
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
             {filteredMatches.map((match, i) => (
-              <>
+              <Fragment key={match.id}>
                 {i === 4 && (
-                  <div key="ad-live" className="col-span-1 sm:col-span-2 xl:col-span-3">
+                  <div className="col-span-1 sm:col-span-2 xl:col-span-3">
                     <AdsterraBanner />
                   </div>
                 )}
-              <div
-                key={match.id}
-                className="animate-fade-up"
-                style={{ animationDelay: `${i * 80}ms` }}
-              >
-                <LiveMatchCard
-                  match={match}
-                  onClick={() => onMatchClick?.(match)}
-                />
-              </div>
-              </>
+                <div
+                  className="animate-fade-up"
+                  style={{ animationDelay: `${i * 80}ms` }}
+                >
+                  <LiveMatchCard
+                    match={match}
+                    onClick={() => onMatchClick?.(match)}
+                  />
+                </div>
+              </Fragment>
             ))}
           </div>
         )}

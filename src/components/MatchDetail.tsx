@@ -23,7 +23,7 @@ const MatchDetail = ({ match, onBack }: MatchDetailProps) => {
   const isLive = match.status === "live";
 
   return (
-    <div className="min-h-screen bg-background pb-28 lg:pb-8 relative overflow-x-hidden">
+    <div className="min-h-screen bg-background pb-28 lg:pb-8 relative overflow-x-hidden" style={{ maxWidth: "100vw" }}>
       {/* Animated background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div

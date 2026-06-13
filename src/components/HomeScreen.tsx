@@ -1,5 +1,5 @@
 import { ChevronRight, Flame, Eye, Play, Radio, Trophy, TrendingUp } from "lucide-react";
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, Fragment } from "react";
 import { standingsData, Match } from "@/data/matches";
 import { fetchSportSRCLive, fetchSportSRCMatchesByDate } from "@/services/sportsrcApi";
 import TeamLogo from "./TeamLogo";
@@ -243,14 +243,13 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
               {allMatches.map((match, i) => {
                 const isLive = match.status === "live";
                 return (
-                  <>
+                  <Fragment key={match.id}>
                     {i === 4 && (
-                      <div key="ad-home" className="col-span-1 sm:col-span-2">
+                      <div className="col-span-1 sm:col-span-2">
                         <AdsterraBanner />
                       </div>
                     )}
                   <div
-                    key={match.id}
                     className="animate-fade-up cursor-pointer"
                     style={{ animationDelay: `${(i + 2) * 80}ms` }}
                     onClick={() => onMatchClick?.(match)}
@@ -339,7 +338,7 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                       </div>
                     </div>
                   </div>
-                  </>
+                  </Fragment>
                 );
               })}
             </div>

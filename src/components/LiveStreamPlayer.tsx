@@ -231,8 +231,20 @@ const LiveStreamPlayer = ({ match }: LiveStreamPlayerProps) => {
   const active = sources[activeIdx];
 
   return (
-    <div className="rounded-2xl overflow-hidden border border-border/20 w-full max-w-full" style={{ touchAction: "manipulation" }}>
-      <div className="relative bg-background w-full max-w-full overflow-hidden" style={{ height: 0, paddingBottom: "56.25%" }}>
+    <div
+      className="rounded-2xl overflow-hidden border border-border/20 w-full max-w-full"
+      style={{
+        touchAction: "pan-y",
+        contain: "layout style",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+        maxWidth: "100vw",
+      }}
+    >
+      <div
+        className="relative bg-background w-full overflow-hidden"
+        style={{ height: 0, paddingBottom: "56.25%", maxWidth: "100vw" }}
+      >
         {loading && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-card/40">
             <Loader2 className="h-6 w-6 text-primary animate-spin" />
@@ -254,7 +266,13 @@ const LiveStreamPlayer = ({ match }: LiveStreamPlayerProps) => {
             key={active.src}
             src={active.src}
             className="absolute inset-0 w-full h-full block"
-            style={{ border: 0, maxWidth: "100%", maxHeight: "100%" }}
+            style={{
+              border: 0,
+              maxWidth: "100%",
+              maxHeight: "100%",
+              transform: "translateZ(0)",
+              WebkitTransform: "translateZ(0)",
+            }}
             scrolling="no"
             allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
             allowFullScreen
@@ -302,7 +320,7 @@ const LiveStreamPlayer = ({ match }: LiveStreamPlayerProps) => {
       </div>
 
       {sources.length >= 1 && (
-        <div className="relative bg-card/40 border-t border-border/20">
+        <div className="relative bg-card/40 border-t border-border/20 sticky bottom-0 z-30">
           <div className="px-3 py-1.5 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
             Servers · pick your language
           </div>
