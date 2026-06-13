@@ -58,15 +58,17 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
     }
   }, [activeSlide, liveMatches.length]);
 
+  const carouselMatches = liveMatches.length > 0 ? liveMatches : upcomingMatches;
+
   useEffect(() => {
-    if (liveMatches.length === 0) return;
+    if (carouselMatches.length === 0) return;
     const timer = setInterval(() => {
-      setActiveSlide((s) => (s + 1) % liveMatches.length);
+      setActiveSlide((s) => (s + 1) % carouselMatches.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, [liveMatches.length]);
+  }, [carouselMatches.length]);
 
-  const featuredMatch = liveMatches[activeSlide];
+  const featuredMatch = carouselMatches[activeSlide];
   const allMatches = [...liveMatches.slice(0, 4), ...upcomingMatches.slice(0, Math.max(0, 4 - liveMatches.length))].slice(0, 4);
 
   const getGreeting = () => {
@@ -128,6 +130,7 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
             <div className="relative z-10 p-5 pb-5">
               {/* Status bar */}
               <div className="flex items-center justify-between mb-5">
+                {featuredMatch.status === "live" ? (
                 <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold shadow-lg"
                   style={{
                     background: 'linear-gradient(135deg, hsl(var(--destructive) / 0.9), hsl(var(--destructive) / 0.7))',
@@ -138,6 +141,14 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                   <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                   LIVE
                 </span>
+                ) : (
+                <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[10px] font-bold"
+                  style={{ background: 'rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)' }}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  UPCOMING · {featuredMatch.matchTime}
+                </span>
+                )}
                 <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 text-white/50 text-[10px] font-medium"
                   style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)' }}
                 >
@@ -162,11 +173,15 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
                 </div>
 
                 <div className="flex flex-col items-center gap-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-5xl font-black text-white leading-none" style={{ textShadow: '0 0 30px rgba(255,255,255,0.2)' }}>{featuredMatch.homeScore}</span>
-                    <span className="text-2xl text-white/20 font-light">:</span>
-                    <span className="text-5xl font-black text-white leading-none" style={{ textShadow: '0 0 30px rgba(255,255,255,0.2)' }}>{featuredMatch.awayScore}</span>
-                  </div>
+                  {featuredMatch.status === "live" ? (
+                    <div className="flex items-center gap-2">
+                      <span className="text-5xl font-black text-white leading-none" style={{ textShadow: '0 0 30px rgba(255,255,255,0.2)' }}>{featuredMatch.homeScore}</span>
+                      <span className="text-2xl text-white/20 font-light">:</span>
+                      <span className="text-5xl font-black text-white leading-none" style={{ textShadow: '0 0 30px rgba(255,255,255,0.2)' }}>{featuredMatch.awayScore}</span>
+                    </div>
+                  ) : (
+                    <span className="text-3xl font-black text-white/40 leading-none">VS</span>
+                  )}
                   <span className="text-[10px] font-bold text-white/50 px-3 py-1 rounded-full border border-white/10" style={{ background: 'rgba(255,255,255,0.06)' }}>{featuredMatch.matchTime}</span>
                 </div>
 
@@ -216,7 +231,7 @@ const HomeScreen = ({ onMatchClick, onViewAllLive }: HomeScreenProps) => {
 
         {/* Dots */}
         <div className="flex justify-center gap-1.5 mt-3">
-          {liveMatches.map((_, i) => (
+          {carouselMatches.map((_, i) => (
             <button
               key={i}
               onClick={() => setActiveSlide(i)}
