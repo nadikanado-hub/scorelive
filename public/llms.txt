@@ -1,0 +1,14 @@
+# ScoreLive
+
+> Live football scores, real-time match results, fixtures, league standings, and live streaming for every major league worldwide.
+
+ScoreLive tracks live football matches as they happen — scores update minute by minute, with goal alerts, match stats, league standings, and live video streams for Premier League, La Liga, Serie A, Bundesliga, Ligue 1, Champions League, and dozens of other competitions.
+
+## Pages
+- [Home](/): Today's live football matches, featured games, and quick standings
+- [Live Scores](/live): Real-time scores and fixtures for yesterday, today, and tomorrow
+- [Standings](/standings): League tables and team rankings across major competitions
+- [Subscription](/subscription): Free, Pro, and Ultimate plans for ScoreLive
+
+## Optional
+- [Profile](/profile): User account and preferences (requires sign-in)
